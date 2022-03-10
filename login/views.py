@@ -1,14 +1,21 @@
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from django.http import HttpResponse, JsonResponse
+from dotenv import load_dotenv
+import os
 
+
+
+dotenv_path = os.path.abspath("../.env")
+load_dotenv(dotenv_path)
 
 DUMMY_ID = "407408718192.apps.googleusercontent.com"
+CLIENT_ID = os.getenv("CLIENT_ID")
 
 
 def verify_token(token):
     try:
-        user_info = id_token.verify_oauth2_token(token, requests.Request(), DUMMY_ID)
+        user_info = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
         return user_info
     except ValueError as e:
         return e
