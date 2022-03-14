@@ -17,7 +17,7 @@ verification = openapi.Parameter(
 
 @api_view(["GET"])
 def protected_resources(request):
-    verification = VerificationFactory.get_verification_method(is_dummy=True)
+    verification = VerificationFactory.get_verification_method(is_dummy=False)
     if request.method == "GET":
         cookie_val = request.COOKIES["study-login-cookie"]
         if cookie_val is None:
@@ -41,7 +41,7 @@ def protected_resources(request):
 @api_view(["POST"])
 @parser_classes([MultiPartParser])
 def verify(request):
-    verification = VerificationFactory.get_verification_method(is_dummy=True)
+    verification = VerificationFactory.get_verification_method(is_dummy=False)
     if request.method == "POST":
         id_token = request.POST["idtoken"]
         user_info = verification.verify_token(id_token)
